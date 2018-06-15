@@ -1,0 +1,6 @@
+
+config\.cnf
+*.db
+\.ipynb_checkpoints/
+\.vscode/
+output_files/
