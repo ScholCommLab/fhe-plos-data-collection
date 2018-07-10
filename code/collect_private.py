@@ -173,10 +173,6 @@ def process_result(url_id, query_index, result, og_objects, query_f, og_f, now):
     if 'og_obj' in result:
         i = og_objects.shape[0]
 
-        og_columns = ["og_id", "query_id", "received_at", "fb_url",
-                      "og_description", "og_title", "og_type", "og_updated_time",
-                      "reactions", "shares", "comments", "plugin_comments"]
-
         og_id = result['og_obj']['id']
         received_at = str(result['received'])
         fb_url = result["fb_url"]
