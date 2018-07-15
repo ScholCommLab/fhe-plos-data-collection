@@ -4,7 +4,7 @@
 
 import pandas as pd
 
-input_csv = "../data/plos2016.csv"
+input_csv = "../data/plos.csv"
 urls_csv = "../data/urls.csv"
 query_csv = "../data/queries.csv"
 og_csv = "../data/og_objects.csv"

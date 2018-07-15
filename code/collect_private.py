@@ -33,7 +33,7 @@ def chunker(seq, size):
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
 
-input_csv = "../data/plos2016.csv"
+input_csv = "../data/plos.csv"
 urls_csv = "../data/urls.csv"
 query_csv = "../data/queries.csv"
 og_csv = "../data/og_objects.csv"
@@ -145,13 +145,16 @@ raw = pd.read_csv(urls_csv, index_col="url_id")
 urls = raw
 
 query_columns = ["url_id", "error_msg", "queried_at"]
-queries = pd.DataFrame(columns=query_columns)
-query_index = 0
-
-if continue_crawl:
-    queries = pd.read_csv(query_csv, index_col="query_id")
-    urls = urls.drop(queries[queries.error_msg.isnull()].url_id)
-    query_index = max(queries.index)+1
+try:
+    if continue_crawl:
+        queries = pd.read_csv(query_csv, index_col="query_id")
+        urls = urls.drop(queries[queries.error_msg.isnull()].url_id)
+        query_index = max(queries.index)+1
+    else:
+        raise
+except:
+    queries = pd.DataFrame(columns=query_columns)
+    query_index = 0
 
 if sample_size:
     urls = urls.sample(sample_size)

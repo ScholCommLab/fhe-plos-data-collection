@@ -4,7 +4,7 @@ import pandas as pd
 from tqdm import tqdm
 
 
-input_csv = "../data/plos2016.csv"
+input_csv = "../data/plos.csv"
 urls_csv = "../data/urls.csv"
 
 templates = {"doi": "https://doi.org/{}",

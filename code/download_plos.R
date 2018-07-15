@@ -1,5 +1,12 @@
+require(rplos)
+
+year = "2016"
+pub_dates = paste0('publication_date:[', year, '-01-01T00:00:00Z TO ', year, '-12-31T23:59:59Z]')
+journal = 'journal_key:PLoSONE'
+doc_type = 'doc_type:full'
+
 fl = 'id,publication_date,title,author'
-fq = list('journal_key:PLoSONE','publication_date:[2016-01-01T00:00:00Z TO 2016-12-31T23:59:59Z]', 'doc_type:full')
+fq = list(journal, pub_dates, doc_type)
 batch_size = 500
 
 numFound = searchplos(q="*:*", fl=fl, fq=fq, limit=0)$meta$numFound
@@ -22,4 +29,4 @@ for (i in seq(0, numFound, batch_size)) {
 }
 
 plos2016 = data.frame(doi=id, publication_date=publication_date, title=title, author=author)
-write.csv(plos2016, "plos2016.csv", row.names = FALSE)
+write.csv(plos2016, "../data/plos.csv", row.names = FALSE)
