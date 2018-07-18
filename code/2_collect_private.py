@@ -10,12 +10,12 @@ import json
 import math
 import pickle
 import queue
+from pathlib import Path
 
 import pandas as pd
 import requests
-from ratelimit import RateLimitException, limits, sleep_and_retry
-
 from facebook import GraphAPI, GraphAPIError
+from ratelimit import RateLimitException, limits, sleep_and_retry
 
 try:
     # for notebook
@@ -33,10 +33,12 @@ def chunker(seq, size):
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
 
-input_csv = "../data/plos.csv"
-urls_csv = "../data/urls.csv"
-query_csv = "../data/queries.csv"
-og_csv = "../data/og_objects.csv"
+base_dir = Path("../data/")
+
+input_csv = base_dir / "plos_ncbi.csv"
+urls_csv = base_dir / "urls.csv"
+query_csv = base_dir / "queries.csv"
+og_csv = base_dir / "og_objects.csv"
 
 config_file = "../config.cnf"
 
@@ -275,8 +277,7 @@ def process_batch(batch, og_objects, query_f, og_f, failed_batches):
         # successful batch query
         for url, result in results.items():
             url_id = batch[batch.url == url].index[0]
-            process_result(url_id, query_index, result,
-                           og_objects, query_f, og_f, now)
+            process_result(url_id, query_index, result, og_objects, query_f, og_f, now)
             query_index += 1
 
     # failed batch query
@@ -284,8 +285,7 @@ def process_batch(batch, og_objects, query_f, og_f, failed_batches):
         failed_batches.put((e, batch.index))
 
         # Process failed batches
-        pbar = tqdm(total=failed_batches.qsize() *
-                    batchsize, desc="Failed batches")
+        pbar = tqdm(total=failed_batches.qsize() * batchsize, desc="Failed batches")
         while not failed_batches.empty():
             e, bad_batch = failed_batches.get()
             if len(bad_batch) > 4:
@@ -295,15 +295,13 @@ def process_batch(batch, og_objects, query_f, og_f, failed_batches):
                     batch = urls.loc[batch_ind]
 
                     q_len = failed_batches.qsize()
-                    process_batch(batch, og_objects, query_writer,
-                                  og_writer, failed_batches)
+                    process_batch(batch, og_objects, query_writer, og_writer, failed_batches)
                     if failed_batches.qsize() == q_len:
                         pbar.update(len(batch_ind))
 
             else:
                 for i in bad_batch:
-                    process_url(urls.loc[i], og_objects,
-                                query_writer, og_writer)
+                    process_url(urls.loc[i], og_objects, query_writer, og_writer)
                     pbar.update(1)
         pbar.close()
 
@@ -333,27 +331,4 @@ with open(query_csv, write_mode) as query_f, open(og_csv, write_mode) as og_f:
     # Keep appending in batches of 50
     for batch_ind in tqdm(batch_indices, total=len(urls)//batchsize, desc="Batches"):
         batch = urls.loc[batch_ind]
-        process_batch(batch, og_objects, query_writer,
-                      og_writer, failed_batches)
-
-    # Process failed batches
-    pbar = tqdm(total=failed_batches.qsize()*batchsize, desc="Failed batches")
-    while not failed_batches.empty():
-        e, bad_batch = failed_batches.get()
-        if len(bad_batch) > 4:
-            batch_indices = chunker(bad_batch, math.ceil(len(bad_batch)/2))
-
-            for batch_ind in batch_indices:
-                batch = urls.loc[batch_ind]
-
-                q_len = failed_batches.qsize()
-                process_batch(batch, og_objects,
-                              query_writer, og_writer, failed_batches)
-                if failed_batches.qsize() == q_len:
-                    pbar.update(len(batch_ind))
-
-        else:
-            for i in bad_batch:
-                process_url(urls.loc[i], og_objects, query_writer, og_writer,)
-                pbar.update(1)
-    pbar.close()
+        process_batch(batch, og_objects, query_writer, og_writer, failed_batches)
