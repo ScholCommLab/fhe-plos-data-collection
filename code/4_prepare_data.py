@@ -13,7 +13,7 @@ except:
     from tqdm import tqdm
 tqdm.pandas()
 
-input_csv = "../data/plos.csv"
+input_csv = "../data/plos_ncbi.csv"
 urls_csv = "../data/urls.csv"
 query_csv = "../data/queries.csv"
 og_csv = "../data/og_objects.csv"
@@ -59,7 +59,6 @@ am = am_raw.progress_apply(extract_metrics, axis=1)
 
 del am['am_resp']
 del am['am_err']
-del am['shares']
 del am['ts']
 
 metrics = am
