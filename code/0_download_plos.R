@@ -1,32 +1,26 @@
 require(rplos)
 
-year = "2016"
-pub_dates = paste0('publication_date:[', year, '-01-01T00:00:00Z TO ', year, '-12-31T23:59:59Z]')
-journal = 'journal_key:PLoSONE'
-doc_type = 'doc_type:full'
+start_year = 2013
+end_year = 2017
+output_dir = "../data/plos_raw/"
 
-fl = 'id,publication_date,title,author'
-fq = list(journal, pub_dates, doc_type)
-batch_size = 500
+for (year in seq(start_year, end_year, 1)) {
+    print(paste("Collecting", year))
+    pub_dates = paste0('publication_date:[', year, '-01-01T00:00:00Z TO ', year, '-12-31T23:59:59Z]')
+    journal = 'journal_key:PLoSONE'
+    doc_type = 'doc_type:full'
 
-numFound = searchplos(q="*:*", fl=fl, fq=fq, limit=0)$meta$numFound
-print(paste("Found", numFound, "articles"))
+    fl = 'id,publication_date,title,author'
+    fq = list(journal, pub_dates, doc_type)
 
-id = c()
-publication_date = c()
-author = c()
-title = c()
+    numFound = searchplos(q="*:*", fl=fl, fq=fq, limit=0)$meta$numFound
+    print(paste("Found", numFound, "articles"))
 
-for (i in seq(0, numFound, batch_size)) {
-  r = searchplos(q="*:*", fl=fl, fq=fq, start=i, limit=batch_size, sleep=6)
-  
-  print(paste("Saved", length(r$data$id), "entries"))
-  
-  id = c(id, r$data$id)
-  publication_date = c(publication_date, r$data$publication_date)
-  author = c(author, r$data$author)
-  title = c(title, r$data$title)
+    doi = c()
+    publication_date = c()
+    author = c()
+    title = c()
+
+    r = searchplos(q="*:*", fl=fl, fq=fq, limit=numFound, progress=httr::progress())
+    write.csv(unique(r$data), paste0(output_dir, "plos", year, ".csv"), row.names = FALSE)
 }
-
-plos2016 = data.frame(doi=id, publication_date=publication_date, title=title, author=author)
-write.csv(plos2016, "../data/plos.csv", row.names = FALSE)
