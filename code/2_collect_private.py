@@ -311,7 +311,7 @@ if continue_crawl:
 else:
     write_mode = "w"
 
-with open(query_csv, write_mode) as query_f, open(og_csv, write_mode) as og_f:
+with open(str(query_csv), write_mode) as query_f, open(str(og_csv), write_mode) as og_f:
     query_writer = csv.writer(query_f, delimiter=",")
     og_writer = csv.writer(og_f, delimiter=",")
 
