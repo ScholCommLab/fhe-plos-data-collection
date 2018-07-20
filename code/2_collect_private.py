@@ -11,11 +11,13 @@ import math
 import pickle
 import queue
 from pathlib import Path
+from random import shuffle
 
 import pandas as pd
 import requests
-from facebook import GraphAPI, GraphAPIError
 from ratelimit import RateLimitException, limits, sleep_and_retry
+
+from facebook import GraphAPI, GraphAPIError
 
 try:
     # for notebook
@@ -45,6 +47,7 @@ config_file = "../config.cnf"
 batchsize = 50
 sample_size = None
 continue_crawl = True
+shuffle = True
 
 
 # Load config
@@ -115,8 +118,6 @@ def expires_soon(token, tolerance=1):
         return False
 
 
-
-# fb_graph, token = get_app_access(FACEBOOK_APP_ID, FACEBOOK_APP_SECRET)
 try:
     with open("token.pkl", "rb") as pkl:
         token = pickle.load(pkl)
@@ -305,19 +306,22 @@ def process_batch(batch, og_objects, query_f, og_f, failed_batches):
                     pbar.update(1)
         pbar.close()
 
+write_query_ids = False
+write_og_ids = False
+if not query_csv.exists():
+    write_query_ids = True
+if not og_csv.exists():
+    write_og_ids = True
 
-if continue_crawl:
-    write_mode = "a"
-else:
-    write_mode = "w"
-
-with open(str(query_csv), write_mode) as query_f, open(str(og_csv), write_mode) as og_f:
+with open(str(query_csv), "a") as query_f, open(str(og_csv), "a") as og_f:
     query_writer = csv.writer(query_f, delimiter=",")
     og_writer = csv.writer(og_f, delimiter=",")
 
     # Write column labels
-    if not continue_crawl:
+    if write_query_ids:
         query_writer.writerow(["query_id"] + queries.columns.tolist())
+
+    if write_og_ids:
         og_writer.writerow(og_objects.columns.tolist())
 
     # Keep track of indices that failed during batchmode
@@ -326,7 +330,11 @@ with open(str(query_csv), write_mode) as query_f, open(str(og_csv), write_mode) 
     # Initialise indices for batches
     if len(urls) < batchsize:
         batchsize = len(urls)
-    batch_indices = chunker(urls.index, batchsize)
+        
+    indices = urls.index
+    if shuffle:
+        shuffle(indices)
+    batch_indices = chunker(indices, batchsize)
 
     # Keep appending in batches of 50
     for batch_ind in tqdm(batch_indices, total=len(urls)//batchsize, desc="Batches"):
