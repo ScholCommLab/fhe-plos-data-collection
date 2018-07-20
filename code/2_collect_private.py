@@ -47,7 +47,7 @@ config_file = "../config.cnf"
 batchsize = 50
 sample_size = None
 continue_crawl = True
-shuffle = True
+shuffle_urls = True
 
 
 # Load config
@@ -332,7 +332,7 @@ with open(str(query_csv), "a") as query_f, open(str(og_csv), "a") as og_f:
         batchsize = len(urls)
         
     indices = urls.index
-    if shuffle:
+    if shuffle_urls:
         shuffle(indices)
     batch_indices = chunker(indices, batchsize)
 
