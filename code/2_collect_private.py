@@ -331,7 +331,7 @@ with open(str(query_csv), "a") as query_f, open(str(og_csv), "a") as og_f:
     if len(urls) < batchsize:
         batchsize = len(urls)
         
-    indices = urls.index
+    indices = list(urls.index)
     if shuffle_urls:
         shuffle(indices)
     batch_indices = chunker(indices, batchsize)
