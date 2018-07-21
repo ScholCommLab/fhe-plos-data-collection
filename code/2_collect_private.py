@@ -261,7 +261,7 @@ def process_url(batch, og_objects, query_f, og_f):
         result = query_url(batch.url)
         process_result(batch.name, query_index, result,
                        og_objects, query_f, og_f, now)
-    except GraphAPIError as e:
+    except Exception as e:
         query_f.writerow([query_index, batch.name, e, str(now)])
     query_index += 1
 
@@ -282,7 +282,7 @@ def process_batch(batch, og_objects, query_f, og_f, failed_batches):
             query_index += 1
 
     # failed batch query
-    except GraphAPIError as e:
+    except Exception as e:
         failed_batches.put((e, batch.index))
 
         # Process failed batches
