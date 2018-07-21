@@ -2,6 +2,7 @@ import csv
 import datetime
 import math
 from pathlib import Path
+import numpy as np
 
 import pandas as pd
 from tqdm import tqdm
@@ -34,7 +35,7 @@ with open(str(urls_csv), "w") as urls_file:
             writer.writerow([i, doi, pmid, "pmid", datetime.datetime.now()])
             i += 1
 
-        if plos.loc[doi, "pmcid"] is not None:
+        if plos.loc[doi, "pmcid"] is not np.nan:
             pmc = "https://ncbi.nlm.nih.gov/pmc/articles/{}/".format(plos.loc[doi, "pmcid"])
             writer.writerow([i, doi, pmc, "pmc", datetime.datetime.now()])
             i += 1
