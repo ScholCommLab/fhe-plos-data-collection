@@ -1,5 +1,7 @@
 pandas==0.23.3
-tqdm==4.23.4
-requests==2.18.4
+requests==2.20.1
+tqdm==4.26.0
+numpy==1.13.3
+facebook_sdk==3.1.0
+peewee==3.5.0
 ratelimit==2.2.0
-facebook_sdk.egg==info
