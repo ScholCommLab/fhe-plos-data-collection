@@ -5,9 +5,10 @@ from pathlib import Path
 import numpy as np
 
 import pandas as pd
-from tqdm import tqdm
+from tqdm.auto import tqdm
+tqdm.pandas()
 
-base_dir = Path("../data/")
+base_dir = Path("../data/pipeline/")
 input_csv = base_dir / "plos_ncbi.csv"
 urls_csv = base_dir / "urls.csv"
 

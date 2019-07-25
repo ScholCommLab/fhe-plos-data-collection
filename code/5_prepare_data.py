@@ -2,24 +2,23 @@
 
 # Some sanitiy checks to validate collected data
 
+from pathlib import Path
 import pandas as pd
 import json
-try:
-    # for notebook
-    get_ipython
-    from tqdm._tqdm_notebook import tqdm_notebook as tqdm
-except:
-    # for commandline
-    from tqdm import tqdm
+from tqdm.auto import tqdm
 tqdm.pandas()
 
-input_csv = "../data/plos_ncbi.csv"
-urls_csv = "../data/urls.csv"
-query_csv = "../data/queries.csv"
-og_csv = "../data/og_objects.csv"
-altmetric_csv = "../data/altmetric.csv"
-metrics_csv = "../data/metrics.csv"
-details_csv = "../data/details.csv"
+base_dir = Path("../data/pipeline/")
+process_dir = Path("../data/processed/")
+
+input_csv = base_dir / "plos_ncbi.csv"
+urls_csv = base_dir / "urls.csv"
+query_csv = base_dir / "queries.csv"
+og_csv = base_dir / "og_objects.csv"
+altmetric_csv = base_dir / "altmetric.csv"
+
+metrics_csv = process_dir / "metrics.csv"
+details_csv = process_dir / "details.csv"
 
 articles = pd.read_csv(input_csv, index_col="doi", parse_dates=['publication_date'])
 urls = pd.read_csv(urls_csv, index_col="url_id", parse_dates=['added_on'])
@@ -40,6 +39,7 @@ c = b.merge(articles, left_on="doi", right_index=True, how="left")
 c.index.name = "id"
 
 c.to_csv(details_csv)
+
 
 def extract_metrics(row):
     try:

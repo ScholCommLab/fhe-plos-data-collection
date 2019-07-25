@@ -1,11 +1,11 @@
 import pandas as pd
 from pathlib import Path
 
-base_dir = Path("../data/")
-input_dir = base_dir / "pipeline/plos_raw/"
+base_dir = Path("../data/pipeline/")
+input_dir = base_dir / "plos_raw/"
+plos_ncbi = base_dir / "plos_ncbi.csv"
 
-pmc_ids = base_dir / "raw/PMC-ids.csv"
-plos_ncbi = base_dir / "pipeline/plos_ncbi.csv"
+pmc_ids = "../data/raw/PMC-ids.csv"
 
 print("Loading RAW PLoS datasets for each year")
 

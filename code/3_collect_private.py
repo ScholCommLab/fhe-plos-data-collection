@@ -19,13 +19,7 @@ from ratelimit import RateLimitException, limits, sleep_and_retry
 
 from facebook import GraphAPI, GraphAPIError
 
-try:
-    # for notebook
-    get_ipython
-    from tqdm._tqdm_notebook import tqdm_notebook as tqdm
-except:
-    # for commandline
-    from tqdm import tqdm
+from tqdm.auto import tqdm
 tqdm.pandas()
 
 
@@ -35,7 +29,7 @@ def chunker(seq, size):
     return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
 
-base_dir = Path("../data/")
+base_dir = Path("../data/pipeline/")
 
 input_csv = base_dir / "plos_ncbi.csv"
 urls_csv = base_dir / "urls.csv"

@@ -12,13 +12,7 @@ import pandas as pd
 
 from Altmetric import Altmetric
 
-try:
-    # for notebook
-    get_ipython
-    from tqdm._tqdm_notebook import tqdm_notebook as tqdm
-except:
-    # for commandline
-    from tqdm import tqdm
+from tqdm.auto import tqdm
 tqdm.pandas()
 
 
@@ -28,7 +22,7 @@ ALTMETRIC_KEY = Config.get('altmetric', 'key')
 
 altmetric = Altmetric(api_key=ALTMETRIC_KEY)
 
-base_dir = Path("../data/")
+base_dir = Path("../data/pipeline/")
 infile = base_dir / "plos_ncbi.csv"
 outfile = base_dir / "altmetric.csv"
 

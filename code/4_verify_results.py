@@ -5,7 +5,7 @@
 import pandas as pd
 from pathlib import Path
 
-base_dir = Path("../data/")
+base_dir = Path("../data/pipeline/")
 
 input_csv = base_dir / "plos_ncbi.csv"
 urls_csv = base_dir / "urls.csv"
