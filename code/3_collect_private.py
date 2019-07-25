@@ -306,6 +306,7 @@ def process_batch(batch, og_objects, query_f, og_f, failed_batches):
                     pbar.update(1)
         pbar.close()
 
+
 write_query_ids = False
 write_og_ids = False
 if not query_csv.exists():
@@ -330,7 +331,7 @@ with open(str(query_csv), "a") as query_f, open(str(og_csv), "a") as og_f:
     # Initialise indices for batches
     if len(urls) < batchsize:
         batchsize = len(urls)
-        
+
     indices = list(urls.index)
     if shuffle_urls:
         shuffle(indices)

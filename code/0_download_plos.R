@@ -1,8 +1,8 @@
 require(rplos)
 
-start_year = 2013
+start_year = 2015
 end_year = 2017
-output_dir = "../data/plos_raw/"
+output_dir = "../data/pipeline/plos_raw/"
 
 for (year in seq(start_year, end_year, 1)) {
     print(paste("Collecting", year))
@@ -10,7 +10,7 @@ for (year in seq(start_year, end_year, 1)) {
     journal = 'journal_key:PLoSONE'
     doc_type = 'doc_type:full'
 
-    fl = 'id,publication_date,title,author'
+    fl = 'id,publication_date,title,author,subject,subject_level_1'
     fq = list(journal, pub_dates, doc_type)
 
     numFound = searchplos(q="*:*", fl=fl, fq=fq, limit=0)$meta$numFound
