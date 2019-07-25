@@ -24,7 +24,7 @@ altmetric = Altmetric(api_key=ALTMETRIC_KEY)
 
 base_dir = Path("../data/pipeline/")
 infile = base_dir / "plos_ncbi.csv"
-outfile = base_dir / "altmetric.csv"
+outfile = base_dir / "altmetric_responses.csv"
 
 
 articles = pd.read_csv(infile, index_col="doi")

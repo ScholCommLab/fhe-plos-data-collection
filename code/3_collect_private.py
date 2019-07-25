@@ -34,7 +34,7 @@ base_dir = Path("../data/pipeline/")
 input_csv = base_dir / "plos_ncbi.csv"
 urls_csv = base_dir / "urls.csv"
 query_csv = base_dir / "queries.csv"
-og_csv = base_dir / "og_objects.csv"
+og_csv = base_dir / "fb_objects.csv"
 
 config_file = "../config.cnf"
 

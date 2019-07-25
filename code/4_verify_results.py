@@ -10,8 +10,8 @@ base_dir = Path("../data/pipeline/")
 input_csv = base_dir / "plos_ncbi.csv"
 urls_csv = base_dir / "urls.csv"
 query_csv = base_dir / "queries.csv"
-og_csv = base_dir / "og_objects.csv"
-altmetric_csv = base_dir / "altmetric.csv"
+og_csv = base_dir / "fb_objects.csv"
+altmetric_csv = base_dir / "altmetric_responses.csv"
 
 articles = pd.read_csv(str(input_csv), index_col="doi", parse_dates=['publication_date'])
 urls = pd.read_csv(str(urls_csv), index_col="url_id", parse_dates=['added_on'])
