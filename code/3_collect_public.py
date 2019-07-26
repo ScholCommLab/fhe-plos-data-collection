@@ -23,7 +23,7 @@ ALTMETRIC_KEY = Config.get('altmetric', 'key')
 altmetric = Altmetric(api_key=ALTMETRIC_KEY)
 
 base_dir = Path("../data/pipeline/")
-infile = base_dir / "plos_ncbi.csv"
+infile = base_dir / "articles.csv"
 outfile = base_dir / "altmetric_responses.csv"
 
 

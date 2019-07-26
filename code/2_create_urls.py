@@ -9,7 +9,7 @@ from tqdm.auto import tqdm
 tqdm.pandas()
 
 base_dir = Path("../data/pipeline/")
-input_csv = base_dir / "plos_ncbi.csv"
+input_csv = base_dir / "articles.csv"
 urls_csv = base_dir / "urls.csv"
 
 templates = {"doi": "https://doi.org/{}",

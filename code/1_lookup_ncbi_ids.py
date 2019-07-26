@@ -3,7 +3,7 @@ from pathlib import Path
 
 base_dir = Path("../data/pipeline/")
 input_dir = base_dir / "plos_raw/"
-plos_ncbi = base_dir / "plos_ncbi.csv"
+plos_ncbi = base_dir / "articles.csv"
 
 pmc_ids = "../data/raw/PMC-ids.csv"
 
