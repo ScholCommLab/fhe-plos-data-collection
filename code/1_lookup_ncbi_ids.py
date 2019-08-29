@@ -9,9 +9,11 @@ pmc_ids = "../data/raw/PMC-ids.csv"
 
 print("Loading RAW PLoS datasets for each year")
 
+input_files = list(input_dir.glob('**/*.py'))
+
 dfs = []
-for i in range(2013, 2018):
-    df = pd.read_csv(input_dir / "plos{}.csv".format(i), index_col="id")
+for f in input_files:
+    df = pd.read_csv(f, index_col="id")
     df.index.name = "doi"
     dfs.append(df)
 df = pd.concat(dfs)
