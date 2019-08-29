@@ -33,17 +33,17 @@ fb_metrics_csv = process_dir / "fb_metrics.csv"
 # Read required files
 print("Reading files from disk")
 details = pd.read_csv(details_csv, index_col="id")
-# am_raw = pd.read_csv(altmetric_csv, index_col="doi")
+am_raw = pd.read_csv(altmetric_csv, index_col="doi")
 
-# # Extract metrics from altmetrics responses
-# am_metrics = am_raw.progress_apply(extract_metrics, axis=1)
+# Extract metrics from altmetrics responses
+am_metrics = am_raw.progress_apply(extract_metrics, axis=1)
 
-# # Drop unneeded columns
-# del am_metrics['am_resp']
-# del am_metrics['am_err']
-# del am_metrics['ts']
+# Drop unneeded columns
+del am_metrics['am_resp']
+del am_metrics['am_err']
+del am_metrics['ts']
 
-# am_metrics.to_csv(am_metrics_csv)
+am_metrics.to_csv(am_metrics_csv)
 
 # Extract FB metrics
 cols = ['shares', 'reactions', 'comments', 'plugin_comments']

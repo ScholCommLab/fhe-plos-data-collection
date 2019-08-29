@@ -35,7 +35,8 @@ For each article (DOI, pmid, pmcid) we create 10 different URLs which we then us
 1. Run `pip install -r requirements.txt` to install python packages.
 2. Install required r packages: `rplos`
 3. Create `config.cnf` based on `default_config.cnf` and fill in your details
-4. Run scripts in `code` in order
+4. Set the date range in `code/0_download_plos.R`
+5. Run scripts in `code` in order
 
 ## External packages and data sources
 
