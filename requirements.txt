@@ -1,6 +1,6 @@
 pandas==0.24.2
 facebook_sdk==3.1.0
-numpy==1.14.2
+numpy==1.22.0
 tqdm==4.32.2
 ratelimit==2.2.0
 requests==2.20.0
